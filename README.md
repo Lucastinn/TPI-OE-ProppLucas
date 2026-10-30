@@ -10,7 +10,7 @@
 
 Proyecto tecnológico de análisis, planeación, diseño organizacional y modelado de procesos y datos para el **Autoservicio Express Urdinarrain** (Entre Ríos), una PyME familiar de comercio minorista.
 
-El software de facturación que usa hoy el comercio (*Enterprise*) solo emite comprobantes para ARCA: no controla el stock ni calcula la caja diaria. El sistema propuesto resuelve esa desarticulación operativa incorporando escaneo con código de barras EAN-13, reposición proactiva de góndolas, control de insumos para rotisería y arqueo automático de caja.
+El software de facturación que usa hoy el comercio (*Enterprise*) solo emite comprobantes para ARCA: no controla el stock ni calcula la caja diaria. El sistema propuesto resuelve esa desarticulación operativa incorporando escaneo con código de barras, reposición proactiva de góndolas, control de insumos para rotisería y arqueo automático de caja.
 
 ---
 
