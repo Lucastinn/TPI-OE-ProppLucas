@@ -4,7 +4,7 @@
 > **Asignatura:** Organización Empresarial | **Institución:** Universidad Tecnológica Nacional (UTN)
 > **Autor:** Lucas Propp | **Docente Tutor:** Prof. Garcia Pablo
 
----
+
 
 ### 📌 Resumen Ejecutivo
 
@@ -76,7 +76,6 @@ Procesos representados: venta con descuento de stock, reposición de góndola, c
 * **Gestión de proyecto:** tablero Kanban y backlog de historias de usuario (GitHub Projects).
 * **Base de datos relacional:** modelo entidad-relación y diccionario de datos.
 
----
 
 ### 🗓️ Planificación y Estado
 
@@ -88,7 +87,6 @@ Desarrollo individual en 10 semanas: análisis (1-2), diseño (3-4), codificaci�
 - [x] Entrega 4: modelado de procesos en BPMN
 - [ ] Codificación, pruebas e implementación del módulo
 
----
 
 ### 🧠 Declaración de Uso de IA
 
@@ -100,14 +98,13 @@ Herramientas utilizadas: **Gemini Notebook** (Entregas 1 a 3) y **Claude** (mode
 - Pedido de un BPMN a partir de las Entregas 1, 2 y 3. Se usó para obtener un borrador del diagrama con pools, lanes y compuertas.
 - Pedido de revisión comparativa de mi introducción con la propuesta de la IA, y de redacción de un README. Se usó para detectar inconsistencias.
 
-**Correcciones y decisiones propias:**
+Correcciones y decisiones propias:**
 
 - Detecté que el texto hacía referencia a la “Figura 1” cuando el BPMN es la Figura 5, y lo corregí.
 - Verifiqué que las compuertas XOR del texto coincidieran con las del diagrama y las numeré.
 - Incorporé la entidad `DETALLE_VENTA` al diccionario de datos porque una venta debe poder registrar varios productos.
 
 
----
 
 ### ⚠️ Limitaciones y Supuestos
 
