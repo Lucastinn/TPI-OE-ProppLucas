@@ -105,9 +105,7 @@ Herramientas utilizadas: **Gemini Notebook** (Entregas 1 a 3) y **Claude** (mode
 - Detecté que el texto hacía referencia a la “Figura 1” cuando el BPMN es la Figura 5, y lo corregí.
 - Verifiqué que las compuertas XOR del texto coincidieran con las del diagrama y las numeré.
 - Incorporé la entidad `DETALLE_VENTA` al diccionario de datos porque una venta debe poder registrar varios productos.
-- Precisé que **ARCA** es el organismo fiscal y **Enterprise** es el software de facturación.
-- Descarté sugerencias que no se correspondían con el caso, como afirmar datos empíricos de ventas que el proyecto no utiliza.
-- La consigna la pide en el README.
+
 
 ---
 
