@@ -2,7 +2,7 @@
 
 > **Trabajo Práctico Integrador – Consolidado (Entregas 1 a 4)**
 > **Asignatura:** Organización Empresarial | **Institución:** Universidad Tecnológica Nacional (UTN)
-> **Autor:** Lucas Propp | **Docente Tutor:** Prof. Andrea Ramos
+> **Autor:** Lucas Propp | **Docente Tutor:** Prof. Garcia Pablo
 
 ---
 
