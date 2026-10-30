@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" id="Definitions_stock" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Claude" exporterVersion="1.0">
+<bpmn:signal id="Signal_alerta" name="Alerta de stock mínimo" />
+<bpmn:collaboration id="Collaboration_stock">
+<bpmn:participant id="Prov" name="Proveedores (viajantes y mayoristas)" />
+<bpmn:participant id="Main" name="Autoservicio Express Urdinarrain" processRef="Process_stock" />
+<bpmn:participant id="Ent" name="Software Enterprise (facturación electrónica / ARCA)" />
+<bpmn:messageFlow id="Msg_pedido" name="Pedido de compra" sourceRef="C4" targetRef="Prov" />
+<bpmn:messageFlow id="Msg_entrega" name="Mercadería + remito" sourceRef="Prov" targetRef="C5" />
+<bpmn:messageFlow id="Msg_venta" name="Datos de la venta" sourceRef="A6" targetRef="Ent" />
+<bpmn:messageFlow id="Msg_ticket" name="Ticket fiscal / CAE" sourceRef="Ent" targetRef="A6" />
+</bpmn:collaboration>
+<bpmn:process id="Process_stock" name="Control de stock" isExecutable="false">
+<bpmn:laneSet id="LaneSet_1">
+<bpmn:lane id="Lane_admin" name="Administración (Dirección / Subdirección)">
+<bpmn:flowNodeRef>C3</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>C4</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>C5</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>C6</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>C7</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>C8</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>C9</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>C10</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>C11</bpmn:flowNodeRef>
+</bpmn:lane>
+<bpmn:lane id="Lane_cocina" name="Encargado de Cocina">
+<bpmn:flowNodeRef>D3</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>D4</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>D5</bpmn:flowNodeRef>
+</bpmn:lane>
+<bpmn:lane id="Lane_sistema" name="Módulo de Control de Stock (sistema)">
+<bpmn:flowNodeRef>D1</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>D2</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>C1</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>C2</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A3</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A7</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A8</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A9</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A10</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A11</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A12</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A13</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A14</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A15</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>E1</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>E2</bpmn:flowNodeRef>
+</bpmn:lane>
+<bpmn:lane id="Lane_caja" name="Cajeros / Repositores">
+<bpmn:flowNodeRef>A1</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A2</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A4</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A5</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>A6</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>B1</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>B2</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>B3</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>B4</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>B5</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>B6</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>B7</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>E3</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>E4</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>E5</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>E7</bpmn:flowNodeRef>
+<bpmn:flowNodeRef>E8</bpmn:flowNodeRef>
+</bpmn:lane>
+</bpmn:laneSet>
+<bpmn:startEvent id="D1" name="Mediodía (todos los días)"><bpmn:outgoing>Flow_D1_D2</bpmn:outgoing><bpmn:timerEventDefinition id="D1_def" /></bpmn:startEvent>
+<bpmn:serviceTask id="D2" name="Calcular sugerido de producción (historial de ventas)"><bpmn:documentation>Usa el historial de VENTA del mismo día de las últimas semanas para sugerir cuántas comidas elaborar.</bpmn:documentation><bpmn:incoming>Flow_D1_D2</bpmn:incoming><bpmn:outgoing>Flow_D2_D3</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:userTask id="D3" name="Elaborar comidas según el sugerido"><bpmn:incoming>Flow_D2_D3</bpmn:incoming><bpmn:outgoing>Flow_D3_D4</bpmn:outgoing></bpmn:userTask>
+<bpmn:userTask id="D4" name="Registrar unidades elaboradas"><bpmn:incoming>Flow_D3_D4</bpmn:incoming><bpmn:outgoing>Flow_D4_D5</bpmn:outgoing></bpmn:userTask>
+<bpmn:endEvent id="D5" name="Producción lista para la venta"><bpmn:incoming>Flow_D4_D5</bpmn:incoming></bpmn:endEvent>
+<bpmn:startEvent id="C1" name="Previo a la visita del viajante (semanal)"><bpmn:outgoing>Flow_C1_C2</bpmn:outgoing><bpmn:timerEventDefinition id="C1_def" /></bpmn:startEvent>
+<bpmn:serviceTask id="C2" name="Generar sugerido de orden de compra"><bpmn:documentation>Cruza historial de ventas, stock_actual, stock_minimo y alertas de reposición de PRODUCTO.</bpmn:documentation><bpmn:incoming>Flow_C1_C2</bpmn:incoming><bpmn:outgoing>Flow_C2_C3</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:userTask id="C3" name="Revisar y ajustar el sugerido de compra"><bpmn:incoming>Flow_C2_C3</bpmn:incoming><bpmn:outgoing>Flow_C3_C4</bpmn:outgoing></bpmn:userTask>
+<bpmn:sendTask id="C4" name="Enviar pedido al proveedor"><bpmn:documentation>Proveedor identificado en la entidad PROVEEDOR (dias_visita, telefono_contacto).</bpmn:documentation><bpmn:incoming>Flow_C3_C4</bpmn:incoming><bpmn:outgoing>Flow_C4_C5</bpmn:outgoing></bpmn:sendTask>
+<bpmn:intermediateCatchEvent id="C5" name="Mercadería y remito recibidos"><bpmn:incoming>Flow_C4_C5</bpmn:incoming><bpmn:outgoing>Flow_C5_C6</bpmn:outgoing><bpmn:messageEventDefinition id="C5_def" /></bpmn:intermediateCatchEvent>
+<bpmn:userTask id="C6" name="Controlar mercadería contra remito / factura"><bpmn:incoming>Flow_C5_C6</bpmn:incoming><bpmn:outgoing>Flow_C6_C7</bpmn:outgoing></bpmn:userTask>
+<bpmn:exclusiveGateway id="C7" name="¿Conforme?"><bpmn:incoming>Flow_C6_C7</bpmn:incoming><bpmn:outgoing>Flow_C7_C9</bpmn:outgoing><bpmn:outgoing>Flow_C7_C8</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:userTask id="C8" name="Reclamar diferencias al proveedor"><bpmn:incoming>Flow_C7_C8</bpmn:incoming><bpmn:outgoing>Flow_C8_C9</bpmn:outgoing></bpmn:userTask>
+<bpmn:exclusiveGateway id="C9"><bpmn:incoming>Flow_C7_C9</bpmn:incoming><bpmn:incoming>Flow_C8_C9</bpmn:incoming><bpmn:outgoing>Flow_C9_C10</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:userTask id="C10" name="Cargar ingreso en el módulo (stock y costos)"><bpmn:documentation>Actualiza stock_actual de PRODUCTO y registra el costo de compra.</bpmn:documentation><bpmn:incoming>Flow_C9_C10</bpmn:incoming><bpmn:outgoing>Flow_C10_C11</bpmn:outgoing></bpmn:userTask>
+<bpmn:endEvent id="C11" name="Stock actualizado"><bpmn:incoming>Flow_C10_C11</bpmn:incoming></bpmn:endEvent>
+<bpmn:startEvent id="A1" name="Cliente llega a caja"><bpmn:outgoing>Flow_A1_A2</bpmn:outgoing></bpmn:startEvent>
+<bpmn:userTask id="A2" name="Escanear producto"><bpmn:documentation>Lectura del codigo_barras (EAN-13) de PRODUCTO.</bpmn:documentation><bpmn:incoming>Flow_A1_A2</bpmn:incoming><bpmn:incoming>Flow_A4_A2</bpmn:incoming><bpmn:outgoing>Flow_A2_A3</bpmn:outgoing></bpmn:userTask>
+<bpmn:serviceTask id="A3" name="Consultar producto, precio y stock"><bpmn:documentation>Meta: respuesta en menos de 1,5 segundos por producto escaneado.</bpmn:documentation><bpmn:incoming>Flow_A2_A3</bpmn:incoming><bpmn:outgoing>Flow_A3_A4</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:exclusiveGateway id="A4" name="¿Hay más productos?"><bpmn:incoming>Flow_A3_A4</bpmn:incoming><bpmn:outgoing>Flow_A4_A5</bpmn:outgoing><bpmn:outgoing>Flow_A4_A2</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:userTask id="A5" name="Cobrar al cliente (medio de pago)"><bpmn:incoming>Flow_A4_A5</bpmn:incoming><bpmn:outgoing>Flow_A5_A6</bpmn:outgoing></bpmn:userTask>
+<bpmn:sendTask id="A6" name="Emitir ticket fiscal (Enterprise)"><bpmn:documentation>El software Enterprise sigue emitiendo el comprobante fiscal; no controla inventario.</bpmn:documentation><bpmn:incoming>Flow_A5_A6</bpmn:incoming><bpmn:outgoing>Flow_A6_A7</bpmn:outgoing></bpmn:sendTask>
+<bpmn:serviceTask id="A7" name="Registrar la venta y descontar stock"><bpmn:documentation>Crea el registro en VENTA y resta stock_actual en PRODUCTO en tiempo real.</bpmn:documentation><bpmn:incoming>Flow_A6_A7</bpmn:incoming><bpmn:outgoing>Flow_A7_A8</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:exclusiveGateway id="A8" name="¿Es comida elaborada en cocina?"><bpmn:incoming>Flow_A7_A8</bpmn:incoming><bpmn:outgoing>Flow_A8_A9</bpmn:outgoing><bpmn:outgoing>Flow_A8_A10</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:serviceTask id="A9" name="Descontar insumos según receta"><bpmn:incoming>Flow_A8_A9</bpmn:incoming><bpmn:outgoing>Flow_A9_A10</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:exclusiveGateway id="A10"><bpmn:incoming>Flow_A9_A10</bpmn:incoming><bpmn:incoming>Flow_A8_A10</bpmn:incoming><bpmn:outgoing>Flow_A10_A11</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:exclusiveGateway id="A11" name="¿Stock ≤ mínimo?"><bpmn:incoming>Flow_A10_A11</bpmn:incoming><bpmn:outgoing>Flow_A11_A12</bpmn:outgoing><bpmn:outgoing>Flow_A11_A14</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:serviceTask id="A12" name="Generar alerta de reposición"><bpmn:documentation>Se dispara cuando stock_actual &lt;= stock_minimo.</bpmn:documentation><bpmn:incoming>Flow_A11_A12</bpmn:incoming><bpmn:outgoing>Flow_A12_A13</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:intermediateThrowEvent id="A13" name="Alerta de stock mínimo"><bpmn:incoming>Flow_A12_A13</bpmn:incoming><bpmn:outgoing>Flow_A13_A14</bpmn:outgoing><bpmn:signalEventDefinition id="A13_def" signalRef="Signal_alerta" /></bpmn:intermediateThrowEvent>
+<bpmn:exclusiveGateway id="A14"><bpmn:incoming>Flow_A13_A14</bpmn:incoming><bpmn:incoming>Flow_A11_A14</bpmn:incoming><bpmn:outgoing>Flow_A14_A15</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:endEvent id="A15" name="Venta registrada"><bpmn:incoming>Flow_A14_A15</bpmn:incoming></bpmn:endEvent>
+<bpmn:startEvent id="B1" name="Alerta de stock mínimo"><bpmn:outgoing>Flow_B1_B2</bpmn:outgoing><bpmn:signalEventDefinition id="B1_def" signalRef="Signal_alerta" /></bpmn:startEvent>
+<bpmn:userTask id="B2" name="Verificar stock en depósito"><bpmn:incoming>Flow_B1_B2</bpmn:incoming><bpmn:outgoing>Flow_B2_B3</bpmn:outgoing></bpmn:userTask>
+<bpmn:exclusiveGateway id="B3" name="¿Hay stock en depósito?"><bpmn:incoming>Flow_B2_B3</bpmn:incoming><bpmn:outgoing>Flow_B3_B4</bpmn:outgoing><bpmn:outgoing>Flow_B3_B5</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:userTask id="B4" name="Reponer góndola"><bpmn:incoming>Flow_B3_B4</bpmn:incoming><bpmn:outgoing>Flow_B4_B7</bpmn:outgoing></bpmn:userTask>
+<bpmn:userTask id="B5" name="Informar faltante a Administración"><bpmn:incoming>Flow_B3_B5</bpmn:incoming><bpmn:outgoing>Flow_B5_B6</bpmn:outgoing></bpmn:userTask>
+<bpmn:endEvent id="B6" name="Faltante informado"><bpmn:incoming>Flow_B5_B6</bpmn:incoming></bpmn:endEvent>
+<bpmn:endEvent id="B7" name="Góndola repuesta"><bpmn:incoming>Flow_B4_B7</bpmn:incoming></bpmn:endEvent>
+<bpmn:startEvent id="E1" name="Fin de turno (15:00 / 23:00)"><bpmn:outgoing>Flow_E1_E2</bpmn:outgoing><bpmn:timerEventDefinition id="E1_def" /></bpmn:startEvent>
+<bpmn:serviceTask id="E2" name="Calcular total de ventas por medio de pago"><bpmn:documentation>Suma monto_total de VENTA agrupado por medio_pago.</bpmn:documentation><bpmn:incoming>Flow_E1_E2</bpmn:incoming><bpmn:outgoing>Flow_E2_E3</bpmn:outgoing></bpmn:serviceTask>
+<bpmn:userTask id="E3" name="Contar efectivo y comparar con el sistema"><bpmn:incoming>Flow_E2_E3</bpmn:incoming><bpmn:outgoing>Flow_E3_E4</bpmn:outgoing></bpmn:userTask>
+<bpmn:exclusiveGateway id="E4" name="¿Coincide?"><bpmn:incoming>Flow_E3_E4</bpmn:incoming><bpmn:outgoing>Flow_E4_E7</bpmn:outgoing><bpmn:outgoing>Flow_E4_E5</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:userTask id="E5" name="Investigar y corregir la diferencia"><bpmn:incoming>Flow_E4_E5</bpmn:incoming><bpmn:outgoing>Flow_E5_E7</bpmn:outgoing></bpmn:userTask>
+<bpmn:exclusiveGateway id="E7"><bpmn:incoming>Flow_E4_E7</bpmn:incoming><bpmn:incoming>Flow_E5_E7</bpmn:incoming><bpmn:outgoing>Flow_E7_E8</bpmn:outgoing></bpmn:exclusiveGateway>
+<bpmn:endEvent id="E8" name="Turno cerrado"><bpmn:incoming>Flow_E7_E8</bpmn:incoming></bpmn:endEvent>
+<bpmn:sequenceFlow id="Flow_D1_D2" sourceRef="D1" targetRef="D2" />
+<bpmn:sequenceFlow id="Flow_D2_D3" sourceRef="D2" targetRef="D3" />
+<bpmn:sequenceFlow id="Flow_D3_D4" sourceRef="D3" targetRef="D4" />
+<bpmn:sequenceFlow id="Flow_D4_D5" sourceRef="D4" targetRef="D5" />
+<bpmn:sequenceFlow id="Flow_C1_C2" sourceRef="C1" targetRef="C2" />
+<bpmn:sequenceFlow id="Flow_C2_C3" sourceRef="C2" targetRef="C3" />
+<bpmn:sequenceFlow id="Flow_C3_C4" sourceRef="C3" targetRef="C4" />
+<bpmn:sequenceFlow id="Flow_C4_C5" sourceRef="C4" targetRef="C5" />
+<bpmn:sequenceFlow id="Flow_C5_C6" sourceRef="C5" targetRef="C6" />
+<bpmn:sequenceFlow id="Flow_C6_C7" sourceRef="C6" targetRef="C7" />
+<bpmn:sequenceFlow id="Flow_C9_C10" sourceRef="C9" targetRef="C10" />
+<bpmn:sequenceFlow id="Flow_C10_C11" sourceRef="C10" targetRef="C11" />
+<bpmn:sequenceFlow id="Flow_A1_A2" sourceRef="A1" targetRef="A2" />
+<bpmn:sequenceFlow id="Flow_A2_A3" sourceRef="A2" targetRef="A3" />
+<bpmn:sequenceFlow id="Flow_A3_A4" sourceRef="A3" targetRef="A4" />
+<bpmn:sequenceFlow id="Flow_A5_A6" sourceRef="A5" targetRef="A6" />
+<bpmn:sequenceFlow id="Flow_A6_A7" sourceRef="A6" targetRef="A7" />
+<bpmn:sequenceFlow id="Flow_A7_A8" sourceRef="A7" targetRef="A8" />
+<bpmn:sequenceFlow id="Flow_A9_A10" sourceRef="A9" targetRef="A10" />
+<bpmn:sequenceFlow id="Flow_A10_A11" sourceRef="A10" targetRef="A11" />
+<bpmn:sequenceFlow id="Flow_A12_A13" sourceRef="A12" targetRef="A13" />
+<bpmn:sequenceFlow id="Flow_A13_A14" sourceRef="A13" targetRef="A14" />
+<bpmn:sequenceFlow id="Flow_A14_A15" sourceRef="A14" targetRef="A15" />
+<bpmn:sequenceFlow id="Flow_B1_B2" sourceRef="B1" targetRef="B2" />
+<bpmn:sequenceFlow id="Flow_B2_B3" sourceRef="B2" targetRef="B3" />
+<bpmn:sequenceFlow id="Flow_B4_B7" sourceRef="B4" targetRef="B7" />
+<bpmn:sequenceFlow id="Flow_B5_B6" sourceRef="B5" targetRef="B6" />
+<bpmn:sequenceFlow id="Flow_E1_E2" sourceRef="E1" targetRef="E2" />
+<bpmn:sequenceFlow id="Flow_E2_E3" sourceRef="E2" targetRef="E3" />
+<bpmn:sequenceFlow id="Flow_E3_E4" sourceRef="E3" targetRef="E4" />
+<bpmn:sequenceFlow id="Flow_E7_E8" sourceRef="E7" targetRef="E8" />
+<bpmn:sequenceFlow id="Flow_C7_C9" name="Sí" sourceRef="C7" targetRef="C9" />
+<bpmn:sequenceFlow id="Flow_C7_C8" name="No" sourceRef="C7" targetRef="C8" />
+<bpmn:sequenceFlow id="Flow_C8_C9" sourceRef="C8" targetRef="C9" />
+<bpmn:sequenceFlow id="Flow_A4_A5" name="No" sourceRef="A4" targetRef="A5" />
+<bpmn:sequenceFlow id="Flow_A4_A2" name="Sí" sourceRef="A4" targetRef="A2" />
+<bpmn:sequenceFlow id="Flow_A8_A9" name="Sí" sourceRef="A8" targetRef="A9" />
+<bpmn:sequenceFlow id="Flow_A8_A10" name="No" sourceRef="A8" targetRef="A10" />
+<bpmn:sequenceFlow id="Flow_A11_A12" name="Sí" sourceRef="A11" targetRef="A12" />
+<bpmn:sequenceFlow id="Flow_A11_A14" name="No" sourceRef="A11" targetRef="A14" />
+<bpmn:sequenceFlow id="Flow_B3_B4" name="Sí" sourceRef="B3" targetRef="B4" />
+<bpmn:sequenceFlow id="Flow_B3_B5" name="No" sourceRef="B3" targetRef="B5" />
+<bpmn:sequenceFlow id="Flow_E4_E7" name="Sí" sourceRef="E4" targetRef="E7" />
+<bpmn:sequenceFlow id="Flow_E4_E5" name="No" sourceRef="E4" targetRef="E5" />
+<bpmn:sequenceFlow id="Flow_E5_E7" sourceRef="E5" targetRef="E7" />
+</bpmn:process>
+<bpmndi:BPMNDiagram id="BPMNDiagram_1"><bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_stock">
+<bpmndi:BPMNShape id="Prov_di" bpmnElement="Prov" isHorizontal="true"><dc:Bounds x="160" y="40" width="4240" height="70" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Main_di" bpmnElement="Main" isHorizontal="true"><dc:Bounds x="160" y="170" width="4240" height="830" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Ent_di" bpmnElement="Ent" isHorizontal="true"><dc:Bounds x="160" y="1070" width="4240" height="70" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Lane_admin_di" bpmnElement="Lane_admin" isHorizontal="true"><dc:Bounds x="190" y="170" width="4210" height="230" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Lane_cocina_di" bpmnElement="Lane_cocina" isHorizontal="true"><dc:Bounds x="190" y="400" width="4210" height="160" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Lane_sistema_di" bpmnElement="Lane_sistema" isHorizontal="true"><dc:Bounds x="190" y="560" width="4210" height="230" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="Lane_caja_di" bpmnElement="Lane_caja" isHorizontal="true"><dc:Bounds x="190" y="790" width="4210" height="210" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="D1_di" bpmnElement="D1"><dc:Bounds x="222" y="657" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="D2_di" bpmnElement="D2"><dc:Bounds x="330" y="635" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="D3_di" bpmnElement="D3"><dc:Bounds x="500" y="440" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="D4_di" bpmnElement="D4"><dc:Bounds x="670" y="440" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="D5_di" bpmnElement="D5"><dc:Bounds x="842" y="462" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="C1_di" bpmnElement="C1"><dc:Bounds x="942" y="657" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="C2_di" bpmnElement="C2"><dc:Bounds x="1050" y="635" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="C3_di" bpmnElement="C3"><dc:Bounds x="1250" y="245" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="C4_di" bpmnElement="C4"><dc:Bounds x="1410" y="245" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="C5_di" bpmnElement="C5"><dc:Bounds x="1602" y="267" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="C6_di" bpmnElement="C6"><dc:Bounds x="1700" y="245" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="C7_di" bpmnElement="C7" isMarkerVisible="true"><dc:Bounds x="1905" y="260" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1875" y="214" width="110" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="C8_di" bpmnElement="C8"><dc:Bounds x="2020" y="310" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="C9_di" bpmnElement="C9" isMarkerVisible="true"><dc:Bounds x="2205" y="260" width="50" height="50" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="C10_di" bpmnElement="C10"><dc:Bounds x="2330" y="245" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="C11_di" bpmnElement="C11"><dc:Bounds x="2512" y="267" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A1_di" bpmnElement="A1"><dc:Bounds x="1082" y="877" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A2_di" bpmnElement="A2"><dc:Bounds x="1180" y="855" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A3_di" bpmnElement="A3"><dc:Bounds x="1360" y="635" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A4_di" bpmnElement="A4" isMarkerVisible="true"><dc:Bounds x="1555" y="870" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="1525" y="824" width="110" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A5_di" bpmnElement="A5"><dc:Bounds x="1680" y="855" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A6_di" bpmnElement="A6"><dc:Bounds x="1870" y="855" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A7_di" bpmnElement="A7"><dc:Bounds x="2070" y="635" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A8_di" bpmnElement="A8" isMarkerVisible="true"><dc:Bounds x="2275" y="650" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2245" y="604" width="110" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A9_di" bpmnElement="A9"><dc:Bounds x="2410" y="635" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A10_di" bpmnElement="A10" isMarkerVisible="true"><dc:Bounds x="2615" y="650" width="50" height="50" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A11_di" bpmnElement="A11" isMarkerVisible="true"><dc:Bounds x="2765" y="650" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2735" y="604" width="110" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A12_di" bpmnElement="A12"><dc:Bounds x="2900" y="635" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A13_di" bpmnElement="A13"><dc:Bounds x="3092" y="657" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A14_di" bpmnElement="A14" isMarkerVisible="true"><dc:Bounds x="3195" y="650" width="50" height="50" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="A15_di" bpmnElement="A15"><dc:Bounds x="3312" y="657" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="B1_di" bpmnElement="B1"><dc:Bounds x="2142" y="877" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="B2_di" bpmnElement="B2"><dc:Bounds x="2250" y="855" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="B3_di" bpmnElement="B3" isMarkerVisible="true"><dc:Bounds x="2455" y="870" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="2425" y="824" width="110" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="B4_di" bpmnElement="B4"><dc:Bounds x="2590" y="805" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="B5_di" bpmnElement="B5"><dc:Bounds x="2590" y="905" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="B6_di" bpmnElement="B6"><dc:Bounds x="2782" y="927" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="B7_di" bpmnElement="B7"><dc:Bounds x="2782" y="827" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="E1_di" bpmnElement="E1"><dc:Bounds x="3432" y="657" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="E2_di" bpmnElement="E2"><dc:Bounds x="3540" y="635" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="E3_di" bpmnElement="E3"><dc:Bounds x="3720" y="855" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="E4_di" bpmnElement="E4" isMarkerVisible="true"><dc:Bounds x="3925" y="870" width="50" height="50" /><bpmndi:BPMNLabel><dc:Bounds x="3895" y="824" width="110" height="42" /></bpmndi:BPMNLabel></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="E5_di" bpmnElement="E5"><dc:Bounds x="4050" y="905" width="120" height="80" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="E7_di" bpmnElement="E7" isMarkerVisible="true"><dc:Bounds x="4195" y="870" width="50" height="50" /></bpmndi:BPMNShape>
+<bpmndi:BPMNShape id="E8_di" bpmnElement="E8"><dc:Bounds x="4312" y="877" width="36" height="36" /></bpmndi:BPMNShape>
+<bpmndi:BPMNEdge id="Flow_D1_D2_di" bpmnElement="Flow_D1_D2"><di:waypoint x="258" y="675" /><di:waypoint x="330" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_D2_D3_di" bpmnElement="Flow_D2_D3"><di:waypoint x="450" y="675" /><di:waypoint x="475" y="675" /><di:waypoint x="475" y="480" /><di:waypoint x="500" y="480" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_D3_D4_di" bpmnElement="Flow_D3_D4"><di:waypoint x="620" y="480" /><di:waypoint x="670" y="480" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_D4_D5_di" bpmnElement="Flow_D4_D5"><di:waypoint x="790" y="480" /><di:waypoint x="842" y="480" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_C1_C2_di" bpmnElement="Flow_C1_C2"><di:waypoint x="978" y="675" /><di:waypoint x="1050" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_C2_C3_di" bpmnElement="Flow_C2_C3"><di:waypoint x="1170" y="675" /><di:waypoint x="1210" y="675" /><di:waypoint x="1210" y="285" /><di:waypoint x="1250" y="285" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_C3_C4_di" bpmnElement="Flow_C3_C4"><di:waypoint x="1370" y="285" /><di:waypoint x="1410" y="285" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_C4_C5_di" bpmnElement="Flow_C4_C5"><di:waypoint x="1530" y="285" /><di:waypoint x="1602" y="285" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_C5_C6_di" bpmnElement="Flow_C5_C6"><di:waypoint x="1638" y="285" /><di:waypoint x="1700" y="285" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_C6_C7_di" bpmnElement="Flow_C6_C7"><di:waypoint x="1820" y="285" /><di:waypoint x="1905" y="285" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_C9_C10_di" bpmnElement="Flow_C9_C10"><di:waypoint x="2255" y="285" /><di:waypoint x="2330" y="285" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_C10_C11_di" bpmnElement="Flow_C10_C11"><di:waypoint x="2450" y="285" /><di:waypoint x="2512" y="285" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A1_A2_di" bpmnElement="Flow_A1_A2"><di:waypoint x="1118" y="895" /><di:waypoint x="1180" y="895" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A2_A3_di" bpmnElement="Flow_A2_A3"><di:waypoint x="1300" y="895" /><di:waypoint x="1330" y="895" /><di:waypoint x="1330" y="675" /><di:waypoint x="1360" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A3_A4_di" bpmnElement="Flow_A3_A4"><di:waypoint x="1480" y="675" /><di:waypoint x="1517" y="675" /><di:waypoint x="1517" y="895" /><di:waypoint x="1555" y="895" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A5_A6_di" bpmnElement="Flow_A5_A6"><di:waypoint x="1800" y="895" /><di:waypoint x="1870" y="895" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A6_A7_di" bpmnElement="Flow_A6_A7"><di:waypoint x="1990" y="895" /><di:waypoint x="2030" y="895" /><di:waypoint x="2030" y="675" /><di:waypoint x="2070" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A7_A8_di" bpmnElement="Flow_A7_A8"><di:waypoint x="2190" y="675" /><di:waypoint x="2275" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A9_A10_di" bpmnElement="Flow_A9_A10"><di:waypoint x="2530" y="675" /><di:waypoint x="2615" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A10_A11_di" bpmnElement="Flow_A10_A11"><di:waypoint x="2665" y="675" /><di:waypoint x="2765" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A12_A13_di" bpmnElement="Flow_A12_A13"><di:waypoint x="3020" y="675" /><di:waypoint x="3092" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A13_A14_di" bpmnElement="Flow_A13_A14"><di:waypoint x="3128" y="675" /><di:waypoint x="3195" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A14_A15_di" bpmnElement="Flow_A14_A15"><di:waypoint x="3245" y="675" /><di:waypoint x="3312" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_B1_B2_di" bpmnElement="Flow_B1_B2"><di:waypoint x="2178" y="895" /><di:waypoint x="2250" y="895" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_B2_B3_di" bpmnElement="Flow_B2_B3"><di:waypoint x="2370" y="895" /><di:waypoint x="2455" y="895" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_B4_B7_di" bpmnElement="Flow_B4_B7"><di:waypoint x="2710" y="845" /><di:waypoint x="2782" y="845" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_B5_B6_di" bpmnElement="Flow_B5_B6"><di:waypoint x="2710" y="945" /><di:waypoint x="2782" y="945" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_E1_E2_di" bpmnElement="Flow_E1_E2"><di:waypoint x="3468" y="675" /><di:waypoint x="3540" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_E2_E3_di" bpmnElement="Flow_E2_E3"><di:waypoint x="3660" y="675" /><di:waypoint x="3690" y="675" /><di:waypoint x="3690" y="895" /><di:waypoint x="3720" y="895" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_E3_E4_di" bpmnElement="Flow_E3_E4"><di:waypoint x="3840" y="895" /><di:waypoint x="3925" y="895" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_E7_E8_di" bpmnElement="Flow_E7_E8"><di:waypoint x="4245" y="895" /><di:waypoint x="4312" y="895" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_C7_C9_di" bpmnElement="Flow_C7_C9"><di:waypoint x="1955" y="285" /><di:waypoint x="2205" y="285" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_C7_C8_di" bpmnElement="Flow_C7_C8"><di:waypoint x="1930" y="310" /><di:waypoint x="1930" y="350" /><di:waypoint x="2020" y="350" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_C8_C9_di" bpmnElement="Flow_C8_C9"><di:waypoint x="2140" y="350" /><di:waypoint x="2230" y="350" /><di:waypoint x="2230" y="310" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A4_A5_di" bpmnElement="Flow_A4_A5"><di:waypoint x="1605" y="895" /><di:waypoint x="1680" y="895" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A4_A2_di" bpmnElement="Flow_A4_A2"><di:waypoint x="1580" y="920" /><di:waypoint x="1580" y="975" /><di:waypoint x="1240" y="975" /><di:waypoint x="1240" y="935" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A8_A9_di" bpmnElement="Flow_A8_A9"><di:waypoint x="2325" y="675" /><di:waypoint x="2410" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A8_A10_di" bpmnElement="Flow_A8_A10"><di:waypoint x="2300" y="700" /><di:waypoint x="2300" y="755" /><di:waypoint x="2640" y="755" /><di:waypoint x="2640" y="700" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A11_A12_di" bpmnElement="Flow_A11_A12"><di:waypoint x="2815" y="675" /><di:waypoint x="2900" y="675" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_A11_A14_di" bpmnElement="Flow_A11_A14"><di:waypoint x="2790" y="700" /><di:waypoint x="2790" y="755" /><di:waypoint x="3220" y="755" /><di:waypoint x="3220" y="700" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_B3_B4_di" bpmnElement="Flow_B3_B4"><di:waypoint x="2480" y="870" /><di:waypoint x="2480" y="845" /><di:waypoint x="2590" y="845" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_B3_B5_di" bpmnElement="Flow_B3_B5"><di:waypoint x="2480" y="920" /><di:waypoint x="2480" y="945" /><di:waypoint x="2590" y="945" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_E4_E7_di" bpmnElement="Flow_E4_E7"><di:waypoint x="3975" y="895" /><di:waypoint x="4195" y="895" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_E4_E5_di" bpmnElement="Flow_E4_E5"><di:waypoint x="3950" y="920" /><di:waypoint x="3950" y="945" /><di:waypoint x="4050" y="945" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Flow_E5_E7_di" bpmnElement="Flow_E5_E7"><di:waypoint x="4170" y="945" /><di:waypoint x="4220" y="945" /><di:waypoint x="4220" y="920" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Msg_pedido_di" bpmnElement="Msg_pedido"><di:waypoint x="1470" y="245" /><di:waypoint x="1470" y="110" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Msg_entrega_di" bpmnElement="Msg_entrega"><di:waypoint x="1620" y="110" /><di:waypoint x="1620" y="267" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Msg_venta_di" bpmnElement="Msg_venta"><di:waypoint x="1900" y="935" /><di:waypoint x="1900" y="1070" /></bpmndi:BPMNEdge>
+<bpmndi:BPMNEdge id="Msg_ticket_di" bpmnElement="Msg_ticket"><di:waypoint x="1960" y="1070" /><di:waypoint x="1960" y="935" /></bpmndi:BPMNEdge>
+</bpmndi:BPMNPlane></bpmndi:BPMNDiagram></bpmn:definitions>
