@@ -8,9 +8,9 @@
 
 ### 📌 Resumen Ejecutivo
 
-Proyecto tecnológico de análisis, planeación, diseño organizacional y modelado de procesos y datos para el **Autoservicio Express Urdinarrain** (Entre Ríos), una PyME familiar de comercio minorista.
+Proyecto tecnológico de análisis, planeación, diseño organizacional y modelado de procesos y datos para el **Autoservicio Express Urdinarrain** (Entre Ríos), una PyME familiar de comercio minorista y ventas por mostrador.
 
-El software de facturación que usa hoy el comercio (*Enterprise*) solo emite comprobantes para ARCA: no controla el stock ni calcula la caja diaria. El sistema propuesto resuelve esa desarticulación operativa incorporando escaneo con código de barras, reposición proactiva de góndolas, control de insumos para rotisería y arqueo automático de caja.
+El software de facturación que usa hoy el comercio (*Enterprise*) solo emite comprobantes para **ARCA**: no controla el stock ni calcula la caja diaria. El sistema propuesto resuelve esa desarticulación mediante un módulo complementario que registra ventas, descuenta stock en tiempo real, controla umbrales mínimos y coordina decisiones de reposición, producción y cierre de turno.
 
 ---
 
@@ -38,13 +38,13 @@ El software de facturación que usa hoy el comercio (*Enterprise*) solo emite co
 
 ### 🔄 Modelado de Procesos (BPMN 2.0)
 
-El circuito operativo completo está modelado con carriles que replican el organigrama del comercio (**Administración, Cocina, Módulo de Control de Stock y Cajeros/Repositores**) y pools externos para los **proveedores** y el software **Enterprise**.
+El circuito operativo completo está modelado con carriles que replican el organigrama del comercio (**Administración, Cocina, Módulo de Control de Stock y Cajeros/Repositores**) y pools externos que representan la interacción con proveedores y el sistema de facturación.
 
 Procesos representados: venta con descuento de stock, reposición de góndola, compras y recepción de mercadería, producción de cocina y cierre de turno.
 
-![BPMN del módulo de control de stock](diagrams/bpmn/control-stock-autoservicio.png)
+![BPMN del módulo de control de stock](diagramas/bpmn/control-stock-autoservicio.png)
 
-📎 Archivo editable: [`control-stock-autoservicio.bpmn`](diagrams/bpmn/control-stock-autoservicio.bpmn)
+📎 Archivo editable: [`control-stock-autoservicio.bpmn`](diagramas/bpmn/control-stock-autoservicio.bpmn)
 
 ---
 
@@ -64,16 +64,15 @@ Procesos representados: venta con descuento de stock, reposición de góndola, c
 | Directorio | Descripción |
 | :--- | :--- |
 | `docs/` | Informes técnicos consolidados (Entregas 1, 2, 3 y 4). |
-| `diagrams/general/` | Organigrama vertical, FODA y modelos de datos. |
-| `diagrams/bpmn/` | Modelado de procesos de negocio punta a punta en estándar BPMN 2.0. |
-| `project-management/` | Cronograma de Gantt, red de dependencias y backlog ágil. |
+| `diagramas/general/` | Organigrama vertical, FODA y modelos de datos. |
+| `diagramas/bpmn/` | Modelado de procesos de negocio punta a punta en estándar BPMN 2.0. |
 
 ---
 
 ### 🛠️ Herramientas y Metodologías
 
 * **Modelado de procesos:** notación BPMN 2.0 (bpmn.io / Camunda Modeler).
-* **Control de versiones:** Git y GitHub (Git Flow con ramas `main`, `develop` y `feature/*`, y Pull Requests).
+* **Control de versiones:** Flujo de ramas: `main` (versión estable) y ramas de trabajo secundarias integradas mediante Pull Request con revisión.
 * **Gestión de proyecto:** tablero Kanban y backlog de historias de usuario (GitHub Projects).
 * **Base de datos relacional:** modelo entidad-relación y diccionario de datos.
 
@@ -91,6 +90,27 @@ Desarrollo individual en 10 semanas: análisis (1-2), diseño (3-4), codificaci�
 
 ---
 
+### 🧠 Declaración de Uso de IA
+
+Herramientas utilizadas: **Gemini Notebook** (Entregas 1 a 3) y **Claude** (modelado BPMN, estructura del README y revisión de coherencia entre entregas).
+
+**Prompts y propósito:**
+
+- Consulta sobre qué datos se necesitan para modelar un BPMN de un módulo de control de stock en una PyME. Se usó para ordenar el relevamiento.
+- Pedido de un BPMN a partir de las Entregas 1, 2 y 3. Se usó para obtener un borrador del diagrama con pools, lanes y compuertas.
+- Pedido de revisión comparativa de mi introducción con la propuesta de la IA, y de redacción de un README. Se usó para detectar inconsistencias.
+
+**Correcciones y decisiones propias:**
+
+- Detecté que el texto hacía referencia a la “Figura 1” cuando el BPMN es la Figura 5, y lo corregí.
+- Verifiqué que las compuertas XOR del texto coincidieran con las del diagrama y las numeré.
+- Incorporé la entidad `DETALLE_VENTA` al diccionario de datos porque una venta debe poder registrar varios productos.
+- Precisé que **ARCA** es el organismo fiscal y **Enterprise** es el software de facturación.
+- Descarté sugerencias que no se correspondían con el caso, como afirmar datos empíricos de ventas que el proyecto no utiliza.
+- La consigna la pide en el README.
+
+---
+
 ### ⚠️ Limitaciones y Supuestos
 
 * *Enterprise* es un software cerrado y sin documentación técnica: el módulo registra la venta de forma complementaria y *Enterprise* sigue emitiendo el comprobante fiscal.
@@ -100,5 +120,5 @@ Desarrollo individual en 10 semanas: análisis (1-2), diseño (3-4), codificaci�
 
 ### 🔗 Enlaces de Gestión
 
-* 📋 **Tablero del Proyecto (GitHub Projects):** *[Pegar enlace aquí]*
+* 📋 **Tablero del Proyecto (GitHub Projects):** https://github.com/users/Lucastinn/projects/1/views/6
 * 📄 **Documento Consolidado Final:** disponible en la carpeta `docs/`
